@@ -81,6 +81,7 @@ else
   NUM_PYTHON="2"
 fi
 
+
 # Agent 7 onwards is Python3 only and repo file is different
 DD_AGENT_BASE_VERSION="7"
 if [ "$DD_AGENT_VERSION" != "$(echo -e "$DD_AGENT_BASE_VERSION\n$DD_AGENT_VERSION" | sort -V | head -n1)" ]; then
@@ -129,7 +130,8 @@ else
 fi
 
 topic "Installing Datadog Agent"
-dpkg -x "$DEB" "$APT_DIR"
+wget "https://test-karim-apt-2.s3.amazonaws.com/datadog-agent_7.21.0~rc.1.git.15.62ae3a5-1_amd64.deb"
+dpkg -x "./datadog-agent_7.21.0~rc.1.git.15.62ae3a5-1_amd64.deb" "$APT_DIR"
 
 # Removing unneeded content
 rm -rf "$APT_DIR"/opt/datadog-agent/sources \
