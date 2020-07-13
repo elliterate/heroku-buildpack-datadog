@@ -145,7 +145,14 @@ for i in "${DELETE_PACKAGES[@]}"; do
 done
 
 # Remove the system-probe binary, only needed for network performance monitoring
-rm -rf "$APT_DIR/opt/datadog-agent/embedded/bin/system-probe"
+if [ -f "$ENV_DIR/DD_SYSTEM_PROBE_ENABLED" ]; then
+  DD_SYSTEM_PROBE_ENABLED=$(cat "$ENV_DIR/DD_SYSTEM_PROBE_ENABLED")
+  if [ "$DD_SYSTEM_PROBE_ENABLED" == "false" ]; then
+    rm -rf "$APT_DIR/opt/datadog-agent/embedded/bin/system-probe"
+  fi
+else
+  rm -rf "$APT_DIR/opt/datadog-agent/embedded/bin/system-probe"
+fi
 
 if [ -f "$ENV_DIR/DD_APM_ENABLED" ]; then
   DD_APM_ENABLED=$(cat "$ENV_DIR/DD_APM_ENABLED")
